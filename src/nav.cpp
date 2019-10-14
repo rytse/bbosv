@@ -1,46 +1,12 @@
 // #include "Enes100.h"
 // #include "Tank.h"
-#include <iomanip>
 
+#include "nav.h"
+
+#include <iostream>
+#include <iomanip>
 #include <vector>
 #include <queue>
-#include <iostream>
-
-// All units should be set in cm, which will be the
-// dx of the discretization of A*
-#define MAP_W 60
-#define MAP_H 60
-#define BOT_W 20
-#define BOT_H 15
-
-#define DIAG_COST 15
-#define STRAIGHT_COST 10
-
-int obs_map[MAP_W][MAP_H];
-
-struct Node {
-    int x;
-    int y;
-    int level;
-    int priority;
-
-    Node(int _x, int _y, int _level, int _priority) {
-        x = _x;
-        y = _y;
-        level = _level;
-        priority = _priority;
-    }
-};
-
-struct Coord {
-    int x;
-    int y;
-
-    Coord(int _x, int _y) {
-        x = _x;
-        y = _y;
-    }
-};
 
 int est_cost(int xc, int yc, int xd, int yd) {
     return (xc - xd) * (xc - xd) + (yc - yd) * (yc - yd);
