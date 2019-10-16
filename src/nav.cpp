@@ -18,7 +18,7 @@ bool operator<(const Node &a, const Node &b) {
     return a.priority > b.priority;
 }
 
-std::vector<v2d> a_star(int xs, int ys, int xd, int yd) {
+std::vector<v2d> a_star(int xs, int ys, int xd, int yd, int (*obs_map)[MAP_W][MAP_H]) {
     int open_map[MAP_W][MAP_H];
     int closed_map[MAP_W][MAP_H];
     int route_map[MAP_W][MAP_H][2];	// hold the parent node of each vertex
@@ -80,7 +80,7 @@ std::vector<v2d> a_star(int xs, int ys, int xd, int yd) {
                 int ydy = n0->y + j - 1;
 
                 if (xdx < 0 || xdx > MAP_W - 1 || ydy < 0 || ydy > MAP_H - 1 ||
-                        obs_map[xdx][ydy] == 1 || closed_map[xdx][ydy] == 1) {
+                        (*obs_map)[xdx][ydy] == 1 || closed_map[xdx][ydy] == 1) {
                     continue;
                 }
 
@@ -134,6 +134,3 @@ std::vector<v2d> a_star(int xs, int ys, int xd, int yd) {
     std::vector<v2d> frep;
     return frep;
 }
-
-
-

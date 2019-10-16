@@ -16,7 +16,7 @@
 #define DIAG_COST 15
 #define STRAIGHT_COST 10
 
-extern int obs_map[MAP_W][MAP_H];
+//extern int obs_map[MAP_W][MAP_H];
 
 struct Node {
     int x;
@@ -46,6 +46,6 @@ struct v2d {
     }
 };
 
-extern int est_cost(int, int, int, int);
-extern bool operator<(const Node &, const Node &);
-extern std::vector<v2d> a_star(int, int, int, int);
+int est_cost(int, int, int, int);
+bool operator<(const Node &, const Node &);
+//std::vector<v2d> a_star(int, int, int, int, int (*obs_map)[MAP_W][MAP_H]);
