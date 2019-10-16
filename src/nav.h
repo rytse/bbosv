@@ -48,4 +48,4 @@ struct v2d {
 
 int est_cost(int, int, int, int);
 bool operator<(const Node &, const Node &);
-//std::vector<v2d> a_star(int, int, int, int, int (*obs_map)[MAP_W][MAP_H]);
+std::vector<v2d> a_star(int, int, int, int, int (*obs_map)[MAP_W][MAP_H]);

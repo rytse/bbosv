@@ -1,9 +1,6 @@
 #include "nav.h"
 #include <iostream>
 
-//std::vector<v2d> a_star(int, int, int, int, int (*obs_map)[MAP_W][MAP_H]);
-std::vector<v2d> a_star(int xs, int ys, int xd, int yd, int (*obs_map)[MAP_W][MAP_H]);
-
 int main() {
 
     int obs_map[MAP_W][MAP_H];
@@ -39,7 +36,6 @@ int main() {
         }
         std::cout << std::endl;
     }
-
 
     return 0;
 }
