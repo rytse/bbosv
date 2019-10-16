@@ -18,7 +18,7 @@ bool operator<(const Node &a, const Node &b) {
     return a.priority > b.priority;
 }
 
-std::vector<Coord> a_star(int xs, int ys, int xd, int yd) {
+std::vector<v2d> a_star(int xs, int ys, int xd, int yd) {
     int open_map[MAP_W][MAP_H];
     int closed_map[MAP_W][MAP_H];
     int route_map[MAP_W][MAP_H][2];	// hold the parent node of each vertex
@@ -57,11 +57,11 @@ std::vector<Coord> a_star(int xs, int ys, int xd, int yd) {
         if (n0->x == xd && n0->y == yd) {
             int x = xd;
             int y = yd;
-            std::vector<Coord> path_s;
+            std::vector<v2d> path_s;
 
             // Trace the direction map
             while (x != xs || y != ys) {
-                path_s.push_back(Coord(x, y));
+                path_s.push_back(v2d(x, y));
                 x += route_map[x][y][0];
                 y += route_map[x][y][1];
             }
@@ -131,7 +131,9 @@ std::vector<Coord> a_star(int xs, int ys, int xd, int yd) {
     }
 
     std::cout << "Zero length path!" << std::endl;
-    std::vector<Coord> frep;
+    std::vector<v2d> frep;
     return frep;
 }
+
+
 

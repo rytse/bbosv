@@ -1,3 +1,5 @@
+#pragma once
+
 #include <vector>
 
 // Cells are CELL_SIZE x CELL_SIZE mm
@@ -14,7 +16,7 @@
 #define DIAG_COST 15
 #define STRAIGHT_COST 10
 
-int obs_map[MAP_W][MAP_H];
+extern int obs_map[MAP_W][MAP_H];
 
 struct Node {
     int x;
@@ -30,16 +32,20 @@ struct Node {
     }
 };
 
-struct Coord {
+/**
+ * Type representing a 2D vector with an x and a y component
+ */
+//typedef struct v2d {
+struct v2d {
     int x;
     int y;
 
-    Coord(int _x, int _y) {
+    v2d(int _x, int _y) {
         x = _x;
         y = _y;
     }
 };
 
-int est_cost(int, int, int, int);
-bool operator<(const Node &, const Node &);
-std::vector<Coord> a_star(int, int, int, int);
+extern int est_cost(int, int, int, int);
+extern bool operator<(const Node &, const Node &);
+extern std::vector<v2d> a_star(int, int, int, int);
