@@ -1,0 +1,6 @@
+[submodule "lib/ENES100ArduinoLibrary"]
+	path = lib/ENES100ArduinoLibrary
+	url = https://github.com/umdenes100/ENES100ArduinoLibrary.git
+[submodule "lib/TankArduinoLibrary"]
+	path = lib/TankArduinoLibrary
+	url = https://github.com/umdenes100/TankArduinoLibrary.git
