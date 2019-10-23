@@ -1,0 +1,7 @@
+name: ino
+dependencies:
+  - python=2.7
+  - pip
+  - pip:
+    - ino
+
