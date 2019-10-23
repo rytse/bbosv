@@ -5,8 +5,8 @@
 
 #include <iostream>
 #include <iomanip>
-#include <vector>
-#include <queue>
+#include "../lib/etl/include/etl/vector.h"
+#include "../lib/etl/include/etl/queue.h"
 
 int est_cost(int xc, int yc, int xd, int yd) {
     return (xc - xd) * (xc - xd) + (yc - yd) * (yc - yd);
