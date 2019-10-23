@@ -4,6 +4,3 @@
 [submodule "lib/TankArduinoLibrary"]
 	path = lib/TankArduinoLibrary
 	url = https://github.com/umdenes100/TankArduinoLibrary.git
-[submodule "lib/etl"]
-	path = lib/etl
-	url = https://github.com/ETLCPP/etl.git
