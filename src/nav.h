@@ -1,7 +1,11 @@
 #pragma once
 
+#include <Arduino.h>
+//#include <pnew.cpp>
+#include "../lib/avrstl/iterator"
+#include "../lib/avrstl/vector"
 //#include <vector>
-#include "../lib/etl/include/etl/vector.h"
+//#include "../lib/etl/include/etl/vector.h"
 
 // Cells are CELL_SIZE x CELL_SIZE mm
 #define CELL_SIZE 20
@@ -30,6 +34,13 @@ struct Node {
         y = _y;
         level = _level;
         priority = _priority;
+    }
+
+    Node() {
+        x = 0;
+        y = 0;
+        level = 0;
+        priority = 0;
     }
 };
 

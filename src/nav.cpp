@@ -5,8 +5,22 @@
 
 #include <iostream>
 #include <iomanip>
+/*
 #include "../lib/etl/include/etl/vector.h"
 #include "../lib/etl/include/etl/queue.h"
+*/
+
+
+#include <Arduino.h>
+//#include <pnew.cpp>
+
+#include "../lib/avrstl/iterator"
+#include "../lib/avrstl/vector"
+#include "../lib/avrstl/queue"
+/*
+#include <vector>
+#include <queue>
+*/
 
 int est_cost(int xc, int yc, int xd, int yd) {
     return (xc - xd) * (xc - xd) + (yc - yd) * (yc - yd);
@@ -130,7 +144,7 @@ std::vector<v2d> a_star(int xs, int ys, int xd, int yd, int (*obs_map)[MAP_W][MA
         delete n0;
     }
 
-    std::cout << "Zero length path!" << std::endl;
+    //std::cout << "Zero length path!" << std::endl;
     std::vector<v2d> frep;
     return frep;
 }
