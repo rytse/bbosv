@@ -1,26 +1,9 @@
-// #include "Enes100.h"
-// #include "Tank.h"
-
 #include "nav.h"
-
-#include <iostream>
-#include <iomanip>
-/*
-#include "../lib/etl/include/etl/vector.h"
-#include "../lib/etl/include/etl/queue.h"
-*/
-
-
-#include <Arduino.h>
-//#include <pnew.cpp>
-
-#include "../lib/avrstl/iterator"
-#include "../lib/avrstl/vector"
-#include "../lib/avrstl/queue"
-/*
-#include <vector>
-#include <queue>
-*/
+// #include <Arduino.h>
+// #include <pnew.cpp>
+// #include <iterator>
+// #include <vector>
+// #include <queue>
 
 int est_cost(int xc, int yc, int xd, int yd) {
     return (xc - xd) * (xc - xd) + (yc - yd) * (yc - yd);
@@ -32,10 +15,14 @@ bool operator<(const Node &a, const Node &b) {
     return a.priority > b.priority;
 }
 
-std::vector<v2d> a_star(int xs, int ys, int xd, int yd, int (*obs_map)[MAP_W][MAP_H]) {
+std::vector<v2d> a_star(int xs, int ys, int xd, int yd, const int (*obs_map)[MAP_W][MAP_H]) {
+    // Serial.println("a_star 00\n");
+
     int open_map[MAP_W][MAP_H];
     int closed_map[MAP_W][MAP_H];
     int route_map[MAP_W][MAP_H][2];	// hold the parent node of each vertex
+
+    // Serial.println("a_star 01\n");
 
     std::priority_queue<Node> pq[2]; // priority queue of processed and unprocessed vertices
     int pqi = 0;	// priority queue index
@@ -50,13 +37,24 @@ std::vector<v2d> a_star(int xs, int ys, int xd, int yd, int (*obs_map)[MAP_W][MA
         }
     }
 
+    // Serial.println("a_star 02\n");
+
     // Set up and declare the "past" and "next nodes" and add the past/current node to the
     // priority queue and open map
     Node *n0 = new Node(xs, ys, 0, est_cost(xs, ys, xd, yd));
     pq[pqi].push(*n0);
     open_map[n0->x][n0->y] = n0->priority;
 
+    // // DEBUG
+    // Serial.println("Check if can access obs_map");
+    // Serial.print((*obs_map)[5][8], DEC);
+
+    // Serial.println("a_star 03\n");
+
     // Explore the graph, starting with the top priority node
+
+    Serial.print("freeMemory()=");
+    Serial.println(freeMemory());
     while (!pq[pqi].empty()) {
         n0 = new Node(pq[pqi].top().x, pq[pqi].top().y,
                       pq[pqi].top().level,
@@ -66,12 +64,15 @@ std::vector<v2d> a_star(int xs, int ys, int xd, int yd, int (*obs_map)[MAP_W][MA
         pq[pqi].pop();
         open_map[n0->x][n0->y] = 0;
         closed_map[n0->x][n0->y] = 1;
+        
+        // Serial.println("a_star 04\n");
 
         // Check if done, and if so, retrace the path
         if (n0->x == xd && n0->y == yd) {
             int x = xd;
             int y = yd;
             std::vector<v2d> path_s;
+            // Serial.println("a_star 05\n");
 
             // Trace the direction map
             while (x != xs || y != ys) {
@@ -79,6 +80,9 @@ std::vector<v2d> a_star(int xs, int ys, int xd, int yd, int (*obs_map)[MAP_W][MA
                 x += route_map[x][y][0];
                 y += route_map[x][y][1];
             }
+
+            // Serial.println("a_star 06\n");
+
 
             return path_s;
         }
@@ -89,6 +93,8 @@ std::vector<v2d> a_star(int xs, int ys, int xd, int yd, int (*obs_map)[MAP_W][MA
                 if (i == 1 && j == 1) {
                     continue;
                 }
+
+                // Serial.println("a_star 07\n");
 
                 int xdx = n0->x + i - 1;
                 int ydy = n0->y + j - 1;
@@ -144,7 +150,6 @@ std::vector<v2d> a_star(int xs, int ys, int xd, int yd, int (*obs_map)[MAP_W][MA
         delete n0;
     }
 
-    //std::cout << "Zero length path!" << std::endl;
     std::vector<v2d> frep;
     return frep;
 }

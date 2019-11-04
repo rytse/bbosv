@@ -1,24 +1,25 @@
-#pragma once
+#ifndef NAV_H
+#define NAV_H
 
 #include <Arduino.h>
 //#include <pnew.cpp>
-#include "../lib/avrstl/iterator"
-#include "../lib/avrstl/vector"
-//#include <vector>
-//#include "../lib/etl/include/etl/vector.h"
+#include <iterator>
+#include <vector>
+#include <queue>
+#include <MemoryFree.h>
 
 // Cells are CELL_SIZE x CELL_SIZE mm
 #define CELL_SIZE 20
 
 // Map dimensions are in number of cells
-#define MAP_W 60
-#define MAP_H 60
+#define MAP_W 20
+#define MAP_H 20
 #define BOT_W 20
 #define BOT_H 15
 
 // Heuristic cost. Diagonal paths cost more so that A* is encouraged to find paths where the OSV
 // just drives straight
-#define DIAG_COST 15
+#define DIAG_COST 15 
 #define STRAIGHT_COST 10
 
 //extern int obs_map[MAP_W][MAP_H];
@@ -47,7 +48,6 @@ struct Node {
 /**
  * Type representing a 2D vector with an x and a y component
  */
-//typedef struct v2d {
 struct v2d {
     int x;
     int y;
@@ -60,4 +60,6 @@ struct v2d {
 
 int est_cost(int, int, int, int);
 bool operator<(const Node &, const Node &);
-std::vector<v2d> a_star(int, int, int, int, int (*obs_map)[MAP_W][MAP_H]);
+std::vector<v2d> a_star(int, int, int, int, const int (*obs_map)[MAP_W][MAP_H]);
+
+#endif  /* NAV_H */
