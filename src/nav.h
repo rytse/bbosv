@@ -1,12 +1,12 @@
 #ifndef NAV_H
 #define NAV_H
 
-//#include <Arduino.h>
+#include <Arduino.h>
 //#include <pnew.cpp>
 #include <iterator>
 #include <vector>
 #include <queue>
-//#include <MemoryFree.h>
+#include <MemoryFree.h>
 
 // Cells are CELL_SIZE x CELL_SIZE mm
 #define CELL_SIZE 20

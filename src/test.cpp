@@ -1,6 +1,7 @@
 #include "nav.h"
 #include <iostream>
 
+/*
 static int obs_map[MAP_W][MAP_H];
 
 int main() {
@@ -54,3 +55,4 @@ int main() {
 
     return 0;
 }
+*/

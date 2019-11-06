@@ -17,13 +17,13 @@ bool operator<(const Node &a, const Node &b) {
 }
 
 std::vector<v2d_s> a_star(int xs, int ys, int xd, int yd, const int (*obs_map)[MAP_W][MAP_H]) {
-    //Serial.println(F("a_star 00\n"));
+    Serial.println(F("a_star 00\n"));
 
     int open_map[MAP_W][MAP_H];
     int closed_map[MAP_W][MAP_H];
     int route_map[MAP_W][MAP_H][2];	// hold the parent node of each vertex
 
-    //Serial.println(F("a_star 01\n"));
+    Serial.println(F("a_star 01\n"));
 
     std::priority_queue<Node> pq[2]; // priority queue of processed and unprocessed vertices
     int pqi = 0;	// priority queue index
@@ -38,20 +38,19 @@ std::vector<v2d_s> a_star(int xs, int ys, int xd, int yd, const int (*obs_map)[M
         }
     }
 
-    //Serial.println(F("a_star 02\n"));
+    Serial.println(F("a_star 02\n"));
 
     // Set up and declare the "past" and "next nodes" and add the past/current node to the
     // priority queue and open map
     Node n0 = Node(xs, ys, 0, est_cost(xs, ys, xd, yd));
     pq[pqi].push(n0);
     open_map[n0.x][n0.y] = n0.priority;
-    //delete n0;
 
-    // // DEBUG
-    //Serial.println(F("Check if can access obs_map"));
-    //Serial.print((*obs_map)[5][8], DEC);
+    // DEBUG
+    Serial.println(F("Check if can access obs_map"));
+    Serial.print((*obs_map)[5][8], DEC);
 
-    //Serial.println(F("a_star 03\n"));
+    Serial.println(F("a_star 03\n"));
 
     // Explore the graph, starting with the top priority node
 
@@ -68,14 +67,14 @@ std::vector<v2d_s> a_star(int xs, int ys, int xd, int yd, const int (*obs_map)[M
         open_map[n0.x][n0.y] = 0;
         closed_map[n0.x][n0.y] = 1;
         
-        // Serial.println("a_star 04\n");
+        Serial.println(F("a_star 04\n"));
 
         // Check if done, and if so, retrace the path
         if (n0.x == xd && n0.y == yd) {
             int x = xd;
             int y = yd;
             std::vector<v2d_s> path_s;
-            // Serial.println("a_star 05\n");
+            Serial.println(F("a_star 05\n"));
 
             // Trace the direction map
             while (x != xs || y != ys) {
@@ -84,7 +83,7 @@ std::vector<v2d_s> a_star(int xs, int ys, int xd, int yd, const int (*obs_map)[M
                 y += route_map[x][y][1];
             }
 
-            // Serial.println("a_star 06\n");
+            Serial.println(F("a_star 06\n"));
 
 
             return path_s;
@@ -97,7 +96,11 @@ std::vector<v2d_s> a_star(int xs, int ys, int xd, int yd, const int (*obs_map)[M
                     continue;
                 }
 
-                // Serial.println("a_star 07\n");
+                Serial.println(F("a_star 07\n"));
+
+                Serial.print(F("Free Memory Available: "));
+                Serial.println(freeMemory());
+                Serial.println(F("\n\n"));
 
                 int xdx = n0.x + i - 1;
                 int ydy = n0.y + j - 1;
