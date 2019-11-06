@@ -1,19 +1,19 @@
 #ifndef NAV_H
 #define NAV_H
 
-#include <Arduino.h>
+//#include <Arduino.h>
 //#include <pnew.cpp>
 #include <iterator>
 #include <vector>
 #include <queue>
-#include <MemoryFree.h>
+//#include <MemoryFree.h>
 
 // Cells are CELL_SIZE x CELL_SIZE mm
 #define CELL_SIZE 20
 
 // Map dimensions are in number of cells
-#define MAP_W 20
-#define MAP_H 20
+#define MAP_W 10
+#define MAP_H 10
 #define BOT_W 20
 #define BOT_H 15
 
@@ -48,18 +48,18 @@ struct Node {
 /**
  * Type representing a 2D vector with an x and a y component
  */
-struct v2d {
+typedef struct v2d_s {
     int x;
     int y;
 
-    v2d(int _x, int _y) {
+    v2d_s(int _x, int _y) {
         x = _x;
         y = _y;
     }
-};
+} v2d_s;
 
 int est_cost(int, int, int, int);
 bool operator<(const Node &, const Node &);
-std::vector<v2d> a_star(int, int, int, int, const int (*obs_map)[MAP_W][MAP_H]);
+std::vector<v2d_s> a_star(int, int, int, int, const int (*obs_map)[MAP_W][MAP_H]);
 
 #endif  /* NAV_H */

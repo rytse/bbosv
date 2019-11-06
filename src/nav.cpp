@@ -1,4 +1,5 @@
 #include "nav.h"
+
 // #include <Arduino.h>
 // #include <pnew.cpp>
 // #include <iterator>
@@ -15,14 +16,14 @@ bool operator<(const Node &a, const Node &b) {
     return a.priority > b.priority;
 }
 
-std::vector<v2d> a_star(int xs, int ys, int xd, int yd, const int (*obs_map)[MAP_W][MAP_H]) {
-    // Serial.println("a_star 00\n");
+std::vector<v2d_s> a_star(int xs, int ys, int xd, int yd, const int (*obs_map)[MAP_W][MAP_H]) {
+    //Serial.println(F("a_star 00\n"));
 
     int open_map[MAP_W][MAP_H];
     int closed_map[MAP_W][MAP_H];
     int route_map[MAP_W][MAP_H][2];	// hold the parent node of each vertex
 
-    // Serial.println("a_star 01\n");
+    //Serial.println(F("a_star 01\n"));
 
     std::priority_queue<Node> pq[2]; // priority queue of processed and unprocessed vertices
     int pqi = 0;	// priority queue index
@@ -37,24 +38,25 @@ std::vector<v2d> a_star(int xs, int ys, int xd, int yd, const int (*obs_map)[MAP
         }
     }
 
-    // Serial.println("a_star 02\n");
+    //Serial.println(F("a_star 02\n"));
 
     // Set up and declare the "past" and "next nodes" and add the past/current node to the
     // priority queue and open map
     Node *n0 = new Node(xs, ys, 0, est_cost(xs, ys, xd, yd));
     pq[pqi].push(*n0);
     open_map[n0->x][n0->y] = n0->priority;
+    //delete n0;
 
     // // DEBUG
-    // Serial.println("Check if can access obs_map");
-    // Serial.print((*obs_map)[5][8], DEC);
+    //Serial.println(F("Check if can access obs_map"));
+    //Serial.print((*obs_map)[5][8], DEC);
 
-    // Serial.println("a_star 03\n");
+    //Serial.println(F("a_star 03\n"));
 
     // Explore the graph, starting with the top priority node
 
-    Serial.print("freeMemory()=");
-    Serial.println(freeMemory());
+    // Serial.print("freeMemory()=");
+    // Serial.println(freeMemory());
     while (!pq[pqi].empty()) {
         n0 = new Node(pq[pqi].top().x, pq[pqi].top().y,
                       pq[pqi].top().level,
@@ -62,6 +64,7 @@ std::vector<v2d> a_star(int xs, int ys, int xd, int yd, const int (*obs_map)[MAP
 
         // Set past node as "explored"
         pq[pqi].pop();
+
         open_map[n0->x][n0->y] = 0;
         closed_map[n0->x][n0->y] = 1;
         
@@ -71,12 +74,12 @@ std::vector<v2d> a_star(int xs, int ys, int xd, int yd, const int (*obs_map)[MAP
         if (n0->x == xd && n0->y == yd) {
             int x = xd;
             int y = yd;
-            std::vector<v2d> path_s;
+            std::vector<v2d_s> path_s;
             // Serial.println("a_star 05\n");
 
             // Trace the direction map
             while (x != xs || y != ys) {
-                path_s.push_back(v2d(x, y));
+                path_s.push_back(v2d_s(x, y));
                 x += route_map[x][y][0];
                 y += route_map[x][y][1];
             }
@@ -144,12 +147,22 @@ std::vector<v2d> a_star(int xs, int ys, int xd, int yd, const int (*obs_map)[MAP
                 } else {
                     delete m0;
                 }
+                //delete m0;
             }
         }
 
+        
         delete n0;
     }
 
-    std::vector<v2d> frep;
+    for (int i = 0; i < 2; i++) {
+        while (!pq[i].empty()) {
+            pq[i].pop();
+        }
+    }
+
+    delete n0;
+
+    std::vector<v2d_s> frep;
     return frep;
 }
