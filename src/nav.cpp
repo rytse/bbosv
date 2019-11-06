@@ -42,9 +42,9 @@ std::vector<v2d_s> a_star(int xs, int ys, int xd, int yd, const int (*obs_map)[M
 
     // Set up and declare the "past" and "next nodes" and add the past/current node to the
     // priority queue and open map
-    Node *n0 = new Node(xs, ys, 0, est_cost(xs, ys, xd, yd));
-    pq[pqi].push(*n0);
-    open_map[n0->x][n0->y] = n0->priority;
+    Node n0 = Node(xs, ys, 0, est_cost(xs, ys, xd, yd));
+    pq[pqi].push(n0);
+    open_map[n0.x][n0.y] = n0.priority;
     //delete n0;
 
     // // DEBUG
@@ -58,20 +58,20 @@ std::vector<v2d_s> a_star(int xs, int ys, int xd, int yd, const int (*obs_map)[M
     // Serial.print("freeMemory()=");
     // Serial.println(freeMemory());
     while (!pq[pqi].empty()) {
-        n0 = new Node(pq[pqi].top().x, pq[pqi].top().y,
+        n0 = Node(pq[pqi].top().x, pq[pqi].top().y,
                       pq[pqi].top().level,
                       pq[pqi].top().priority);
 
         // Set past node as "explored"
         pq[pqi].pop();
 
-        open_map[n0->x][n0->y] = 0;
-        closed_map[n0->x][n0->y] = 1;
+        open_map[n0.x][n0.y] = 0;
+        closed_map[n0.x][n0.y] = 1;
         
         // Serial.println("a_star 04\n");
 
         // Check if done, and if so, retrace the path
-        if (n0->x == xd && n0->y == yd) {
+        if (n0.x == xd && n0.y == yd) {
             int x = xd;
             int y = yd;
             std::vector<v2d_s> path_s;
@@ -99,36 +99,36 @@ std::vector<v2d_s> a_star(int xs, int ys, int xd, int yd, const int (*obs_map)[M
 
                 // Serial.println("a_star 07\n");
 
-                int xdx = n0->x + i - 1;
-                int ydy = n0->y + j - 1;
+                int xdx = n0.x + i - 1;
+                int ydy = n0.y + j - 1;
 
                 if (xdx < 0 || xdx > MAP_W - 1 || ydy < 0 || ydy > MAP_H - 1 ||
                         (*obs_map)[xdx][ydy] == 1 || closed_map[xdx][ydy] == 1) {
                     continue;
                 }
 
-                Node *m0 = new Node(xdx, ydy, n0->level, n0->priority);
+                Node m0 = Node(xdx, ydy, n0.level, n0.priority);
                 if (i - 1 != 0 && j - 1 != 0) { // prioritize non bendy bendy paths
-                    m0->level += DIAG_COST;
+                    m0.level += DIAG_COST;
                 } else {
-                    m0->level += STRAIGHT_COST;
+                    m0.level += STRAIGHT_COST;
                 }
-                m0->priority = m0->level + est_cost(m0->x, m0->y, xd, yd);
+                m0.priority = m0.level + est_cost(m0.x, m0.y, xd, yd);
 
                 // If it isn't in the open map, yet, add it
-                if (open_map[m0->x][m0->y] == 0) {
-                    open_map[m0->x][m0->y] = m0->priority;
-                    pq[pqi].push(*m0);
+                if (open_map[m0.x][m0.y] == 0) {
+                    open_map[m0.x][m0.y] = m0.priority;
+                    pq[pqi].push(m0);
 
-                    route_map[m0->x][m0->y][0] = -(i - 1);
-                    route_map[m0->x][m0->y][1] = -(j - 1);
-                } else if (open_map[m0->x][m0->y] > m0->priority) {
-                    open_map[m0->x][m0->y] = m0->priority;
+                    route_map[m0.x][m0.y][0] = -(i - 1);
+                    route_map[m0.x][m0.y][1] = -(j - 1);
+                } else if (open_map[m0.x][m0.y] > m0.priority) {
+                    open_map[m0.x][m0.y] = m0.priority;
 
-                    route_map[m0->x][m0->y][0] = -(i - 1);
-                    route_map[m0->x][m0->y][1] = -(j - 1);
+                    route_map[m0.x][m0.y][0] = -(i - 1);
+                    route_map[m0.x][m0.y][1] = -(j - 1);
 
-                    while (!(pq[pqi].top().x == m0->x && pq[pqi].top().y == m0->y)) {
+                    while (!(pq[pqi].top().x == m0.x && pq[pqi].top().y == m0.y)) {
                         pq[1 - pqi].push(pq[pqi].top());
                         pq[pqi].pop();
                     }
@@ -143,16 +143,16 @@ std::vector<v2d_s> a_star(int xs, int ys, int xd, int yd, const int (*obs_map)[M
                         pq[pqi].pop();
                     }
                     pqi = 1 - pqi;
-                    pq[pqi].push(*m0);
+                    pq[pqi].push(m0);
                 } else {
-                    delete m0;
+                    //delete m0;
                 }
                 //delete m0;
             }
         }
 
         
-        delete n0;
+        //delete n0;
     }
 
     for (int i = 0; i < 2; i++) {
@@ -161,7 +161,7 @@ std::vector<v2d_s> a_star(int xs, int ys, int xd, int yd, const int (*obs_map)[M
         }
     }
 
-    delete n0;
+    //delete n0;
 
     std::vector<v2d_s> frep;
     return frep;
