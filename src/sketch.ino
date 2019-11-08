@@ -1,9 +1,8 @@
 #include <Arduino.h>
-#include <WString.h>
 #include "nav.h"
 
-int obs_map[MAP_W][MAP_H];
-int bb_map[MAP_W][MAP_H];
+float obs_map[MAP_W][MAP_H];
+float bb_map[MAP_W][MAP_H];
 
 void setup() {
     Serial.begin(9600);

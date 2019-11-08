@@ -2,8 +2,12 @@
 #define NAV_H
 
 #include <Arduino.h>
-//#include <pnew.cpp>
+#include <math.h>
+#include <stdint.h>
+//#include <serstream>
 #include <iterator>
+//#include <bitset>
+//#include <pnew.cpp>
 #include <vector>
 #include <queue>
 #include <MemoryFree.h>
@@ -58,8 +62,8 @@ typedef struct v2d_s {
     }
 } v2d_s;
 
-int est_cost(int, int, int, int);
+uint8_t est_cost(uint8_t, uint8_t, uint8_t, uint8_t);
 bool operator<(const Node &, const Node &);
-std::vector<v2d_s> a_star(int, int, int, int, const int (*obs_map)[MAP_W][MAP_H]);
+std::vector<v2d_s> a_star(uint8_t, uint8_t, uint8_t, uint8_t, const float (*obs_map)[MAP_W][MAP_H]);
 
 #endif  /* NAV_H */

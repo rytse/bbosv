@@ -2,7 +2,7 @@
 #include <iostream>
 
 /*
-static int obs_map[MAP_W][MAP_H];
+static float obs_map[MAP_W][MAP_H];
 
 int main() {
     // int obs_map[MAP_W][MAP_H];

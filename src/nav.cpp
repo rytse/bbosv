@@ -6,8 +6,8 @@
 // #include <vector>
 // #include <queue>
 
-int est_cost(int xc, int yc, int xd, int yd) {
-    return (xc - xd) * (xc - xd) + (yc - yd) * (yc - yd);
+uint8_t est_cost(uint8_t xc, uint8_t yc, uint8_t xd, uint8_t yd) {
+    return pow((xc - xd) * (xc - xd) + (yc - yd) * (yc - yd), 4);
 }
 
 // Define node comparison to be the comparison of their
@@ -16,21 +16,23 @@ bool operator<(const Node &a, const Node &b) {
     return a.priority > b.priority;
 }
 
-std::vector<v2d_s> a_star(int xs, int ys, int xd, int yd, const int (*obs_map)[MAP_W][MAP_H]) {
-    Serial.println(F("a_star 00\n"));
+std::vector<v2d_s> a_star(uint8_t xs, uint8_t ys, uint8_t xd, uint8_t yd,
+        const float (*obs_map)[MAP_W][MAP_H]) {
+    //Serial.println(F("a_star 00\n"));
 
-    int open_map[MAP_W][MAP_H];
-    int closed_map[MAP_W][MAP_H];
-    int route_map[MAP_W][MAP_H][2];	// hold the parent node of each vertex
+    uint8_t open_map[MAP_W][MAP_H];
+    //std::bitset<MAP_W> closed_map[MAP_H];
+    uint8_t closed_map[MAP_W][MAP_H];
+    int8_t route_map[MAP_W][MAP_H][2];	// hold the parent node of each vertex
 
-    Serial.println(F("a_star 01\n"));
+    //Serial.println(F("a_star 01\n"));
 
     std::priority_queue<Node> pq[2]; // priority queue of processed and unprocessed vertices
-    int pqi = 0;	// priority queue index
+    uint8_t pqi = 0;	// priority queue index
 
     // Init map to 0
-    for (int x = 0; x < MAP_W; x++) {
-        for (int y = 0; y < MAP_H; y++) {
+    for (uint8_t x = 0; x < MAP_W; x++) {
+        for (uint8_t y = 0; y < MAP_H; y++) {
             closed_map[x][y] = 0;
             open_map[x][y] = 0;
             route_map[x][y][0] = -1;
@@ -38,7 +40,7 @@ std::vector<v2d_s> a_star(int xs, int ys, int xd, int yd, const int (*obs_map)[M
         }
     }
 
-    Serial.println(F("a_star 02\n"));
+    //Serial.println(F("a_star 02\n"));
 
     // Set up and declare the "past" and "next nodes" and add the past/current node to the
     // priority queue and open map
@@ -47,10 +49,10 @@ std::vector<v2d_s> a_star(int xs, int ys, int xd, int yd, const int (*obs_map)[M
     open_map[n0.x][n0.y] = n0.priority;
 
     // DEBUG
-    Serial.println(F("Check if can access obs_map"));
-    Serial.print((*obs_map)[5][8], DEC);
+    //Serial.println(F("Check if can access obs_map"));
+    //Serial.print((*obs_map)[5][8], DEC);
 
-    Serial.println(F("a_star 03\n"));
+    //Serial.println(F("a_star 03\n"));
 
     // Explore the graph, starting with the top priority node
 
@@ -67,14 +69,14 @@ std::vector<v2d_s> a_star(int xs, int ys, int xd, int yd, const int (*obs_map)[M
         open_map[n0.x][n0.y] = 0;
         closed_map[n0.x][n0.y] = 1;
         
-        Serial.println(F("a_star 04\n"));
+        //Serial.println(F("a_star 04\n"));
 
         // Check if done, and if so, retrace the path
         if (n0.x == xd && n0.y == yd) {
-            int x = xd;
-            int y = yd;
+            uint8_t x = xd;
+            uint8_t y = yd;
             std::vector<v2d_s> path_s;
-            Serial.println(F("a_star 05\n"));
+            //Serial.println(F("a_star 05\n"));
 
             // Trace the direction map
             while (x != xs || y != ys) {
@@ -83,15 +85,15 @@ std::vector<v2d_s> a_star(int xs, int ys, int xd, int yd, const int (*obs_map)[M
                 y += route_map[x][y][1];
             }
 
-            Serial.println(F("a_star 06\n"));
+            //Serial.println(F("a_star 06\n"));
 
 
             return path_s;
         }
 
         // Explore child nodes
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
+        for (uint8_t i = 0; i < 3; i++) {
+            for (uint8_t j = 0; j < 3; j++) {
                 if (i == 1 && j == 1) {
                     continue;
                 }
@@ -158,7 +160,7 @@ std::vector<v2d_s> a_star(int xs, int ys, int xd, int yd, const int (*obs_map)[M
         //delete n0;
     }
 
-    for (int i = 0; i < 2; i++) {
+    for (uint8_t i = 0; i < 2; i++) {
         while (!pq[i].empty()) {
             pq[i].pop();
         }
