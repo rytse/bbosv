@@ -4,6 +4,3 @@
 [submodule "lib/TankArduinoLibrary"]
 	path = lib/TankArduinoLibrary
 	url = https://github.com/umdenes100/TankArduinoLibrary.git
-[submodule "lib/ArduinoSTL"]
-	path = lib/ArduinoSTL
-	url = https://github.com/mike-matera/ArduinoSTL.git
