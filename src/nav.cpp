@@ -18,14 +18,11 @@ bool operator<(const Node &a, const Node &b) {
 
 std::vector<v2d_s> a_star(uint8_t xs, uint8_t ys, uint8_t xd, uint8_t yd,
         const float (*obs_map)[MAP_W][MAP_H]) {
-    //Serial.println(F("a_star 00\n"));
 
     uint8_t open_map[MAP_W][MAP_H];
     //std::bitset<MAP_W> closed_map[MAP_H];
     uint8_t closed_map[MAP_W][MAP_H];
     int8_t route_map[MAP_W][MAP_H][2];	// hold the parent node of each vertex
-
-    //Serial.println(F("a_star 01\n"));
 
     std::priority_queue<Node> pq[2]; // priority queue of processed and unprocessed vertices
     uint8_t pqi = 0;	// priority queue index
@@ -40,24 +37,13 @@ std::vector<v2d_s> a_star(uint8_t xs, uint8_t ys, uint8_t xd, uint8_t yd,
         }
     }
 
-    //Serial.println(F("a_star 02\n"));
-
     // Set up and declare the "past" and "next nodes" and add the past/current node to the
     // priority queue and open map
     Node n0 = Node(xs, ys, 0, est_cost(xs, ys, xd, yd));
     pq[pqi].push(n0);
     open_map[n0.x][n0.y] = n0.priority;
 
-    // DEBUG
-    //Serial.println(F("Check if can access obs_map"));
-    //Serial.print((*obs_map)[5][8], DEC);
-
-    //Serial.println(F("a_star 03\n"));
-
     // Explore the graph, starting with the top priority node
-
-    // Serial.print("freeMemory()=");
-    // Serial.println(freeMemory());
     while (!pq[pqi].empty()) {
         n0 = Node(pq[pqi].top().x, pq[pqi].top().y,
                       pq[pqi].top().level,
@@ -69,14 +55,11 @@ std::vector<v2d_s> a_star(uint8_t xs, uint8_t ys, uint8_t xd, uint8_t yd,
         open_map[n0.x][n0.y] = 0;
         closed_map[n0.x][n0.y] = 1;
         
-        //Serial.println(F("a_star 04\n"));
-
         // Check if done, and if so, retrace the path
         if (n0.x == xd && n0.y == yd) {
             uint8_t x = xd;
             uint8_t y = yd;
             std::vector<v2d_s> path_s;
-            //Serial.println(F("a_star 05\n"));
 
             // Trace the direction map
             while (x != xs || y != ys) {
@@ -84,9 +67,6 @@ std::vector<v2d_s> a_star(uint8_t xs, uint8_t ys, uint8_t xd, uint8_t yd,
                 x += route_map[x][y][0];
                 y += route_map[x][y][1];
             }
-
-            //Serial.println(F("a_star 06\n"));
-
 
             return path_s;
         }
@@ -97,12 +77,6 @@ std::vector<v2d_s> a_star(uint8_t xs, uint8_t ys, uint8_t xd, uint8_t yd,
                 if (i == 1 && j == 1) {
                     continue;
                 }
-
-                Serial.println(F("a_star 07\n"));
-
-                Serial.print(F("Free Memory Available: "));
-                Serial.println(freeMemory());
-                Serial.println(F("\n\n"));
 
                 int xdx = n0.x + i - 1;
                 int ydy = n0.y + j - 1;

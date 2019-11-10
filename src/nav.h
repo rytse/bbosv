@@ -4,10 +4,7 @@
 #include <Arduino.h>
 #include <math.h>
 #include <stdint.h>
-//#include <serstream>
 #include <iterator>
-//#include <bitset>
-//#include <pnew.cpp>
 #include <vector>
 #include <queue>
 #include <MemoryFree.h>
@@ -16,8 +13,8 @@
 #define CELL_SIZE 20
 
 // Map dimensions are in number of cells
-#define MAP_W 10
-#define MAP_H 10
+#define MAP_W 20
+#define MAP_H 20
 #define BOT_W 20
 #define BOT_H 15
 
@@ -25,8 +22,6 @@
 // just drives straight
 #define DIAG_COST 15 
 #define STRAIGHT_COST 10
-
-//extern int obs_map[MAP_W][MAP_H];
 
 struct Node {
     int x;
