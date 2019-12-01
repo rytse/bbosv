@@ -7,3 +7,6 @@
 [submodule "lib/DFRobotIRPosition"]
 	path = lib/DFRobotIRPosition
 	url = https://github.com/DFRobot/DFRobotIRPosition.git
+[submodule "lib/MemoryFree"]
+	path = lib/MemoryFree
+	url = https://github.com/sudar/MemoryFree.git

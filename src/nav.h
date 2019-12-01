@@ -2,6 +2,7 @@
 #define NAV_H
 
 #include <Arduino.h>
+#include <DFRobotIRPosition.h>
 #include <math.h>
 #include <stdint.h>
 #include <iterator>
