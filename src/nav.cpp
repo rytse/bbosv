@@ -1,11 +1,5 @@
 #include "nav.h"
 
-// #include <Arduino.h>
-// #include <pnew.cpp>
-// #include <iterator>
-// #include <vector>
-// #include <queue>
-
 uint8_t est_cost(uint8_t xc, uint8_t yc, uint8_t xd, uint8_t yd) {
     return pow((xc - xd) * (xc - xd) + (yc - yd) * (yc - yd), 4);
 }
