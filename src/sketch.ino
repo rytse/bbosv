@@ -10,8 +10,12 @@ DFRobotIRPosition ir;
 void setup() {
     Serial.begin(19200);
 
-    // Set up sensors
+    // Init sensors
     ir.begin();
+    pinMode(TRIG_PIN_R, OUTPUT);
+    pinMode(TRIG_PIN_L, OUTPUT);
+    pinMode(ECHO_PIN_R, INPUT);
+    pinMode(ECHO_PIN_L, INPUT);
 
     // Init maps
     for (int i = 0; i < MAP_W; i++) {
@@ -26,17 +30,18 @@ void setup() {
 
 void loop() {
     unsigned long ts = millis();    // track how long each loop takes
-    ir_update(&ir, &obs_map);
 
-    // Pathfind
-    std::vector<v2d_s> route = a_star(2, 2, MAP_W - 2, MAP_H - 2, &obs_map);
-    //Serial.println(F("Time to run A*:"));
-    //Serial.print(millis() - ts, DEC);
-    //Serial.println(F("\n\n\n"));
-    //Serial.print(F("Free Memory Available: "));
-    //Serial.println(getFreeMemory());
-    //Serial.println(F("\n\n"));
-    //Serial.println(F("Looped"));
+    // Update maps
+    bool bb_updated = ir_update(&ir, &bb_map);
+    bool obs_updated = ult_update(&obs_map);
+
+    // Update route
+    if (bb_updated || obs_updated) {
+        std::vector<v2d_s> route = a_star(2, 2, MAP_W - 2, MAP_H - 2, &obs_map);
+    }
+
+    // Compute and set setpoint
+    // TODO compute and set setpoint
 
     delay(50);
 }
